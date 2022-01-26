@@ -1,0 +1,8 @@
+@critical;
+
+h1, .heading-h1 { font-size: 2.5rem; line-height: 3.125rem; font-weight: 700 }
+h2, .heading-h2 { font-size: clamp(2rem, 5vw, 1.25rem); line-height: clamp(2.5rem, 5vw, 1.25rem); font-weight: 600 }
+h3, .heading-h3 { font-size: 2rem; line-height: 2.5rem; font-weight: 600 }
+h4, .heading-h4 { font-size: 1.25rem; line-height: 1.5625rem; font-weight: 600 }
+h5, .heading-h5 { font-size: clamp(16px, 1.2vw, 22px); line-height: clamp(27px, 4vw, 37px); }
+h6, .heading-h6 { font-size: clamp(12px, 1vw,   16px); line-height: clamp(17px, 2vw, 27px); }

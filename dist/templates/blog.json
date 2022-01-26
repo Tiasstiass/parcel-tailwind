@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "blogs-grid",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

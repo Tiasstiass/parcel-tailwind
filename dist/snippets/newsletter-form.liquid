@@ -1,0 +1,26 @@
+{%- comment -%}
+  Inputs:
+    section - section with settings
+{%- endcomment -%}
+
+<div class="newsletter-form">
+  {%- assign newsletter_form_id = 'newsletter-' | append: section.id -%}
+  {% form 'customer', id: newsletter_form_id %}
+    {%- if form.posted_successfully? -%}
+      <div class="heading">{{ 'newsletter_form.confirmation' | t }}</div>
+    {%- endif -%}
+    {%- if form.errors and form.context == snippet_context -%}
+      {{ form.errors | default_errors }}
+    {%- endif -%}
+
+    {%- unless form.posted_successfully? -%}
+      <input type="hidden" name="contact[tags]" value="prospect,newsletter">
+      <input type="hidden" name="contact[context]" value="{{ snippet_context }}"> 
+
+      <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'newsletter_form.email' | t }}" name="contact[email]" autocorrect="off" autocapitalize="off">
+      <button type="submit" class="button cta" name="commit">
+        {{ 'newsletter_form.submit' | t }}
+      </button>
+    {%- endunless -%}
+  {% endform %}
+</div>

@@ -1,0 +1,17 @@
+{%- comment -%}
+  Inputs:
+    section - section with settings
+{%- endcomment -%}
+
+<div class="collection-description flex flex-wrap justify-center items-center text-center">
+  <div class="collection-description__container page-width-half">
+    {%- if section.settings.show_title and collection.title != blank -%}
+      <h1 class="heading">{{ collection.title }}</h1>
+    {%- endif -%}
+    {%- if collection.description != blank -%}
+      <div class="collection-description__description">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

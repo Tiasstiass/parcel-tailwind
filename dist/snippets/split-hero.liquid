@@ -1,0 +1,63 @@
+{%- comment -%}
+  Inputs:
+    - block - block or section object
+{%- endcomment -%}
+
+{%- liquid 
+  if block.settings.hero_image != blank 
+    if block.settings.hero_image contains '.jpg' 
+      assign hero_image = block.settings.hero_image | image_url: width: 1440, format: 'pjpg'
+      assign hero_image_mobile = block.settings.hero_image | image_url: width: 768, format: 'pjpg'
+    else
+      assign hero_image = block.settings.hero_image | image_url: width: 1440
+      assign hero_image_mobile = block.settings.hero_image | image_url: width: 768
+    endif
+  endif
+-%}
+
+{%- style -%}
+  #splitHero--{{ block.id }} {
+    {%- if block.settings.hero_image_position == "right" -%}
+      flex-direction: row-reverse;
+    {%- endif -%}
+  }
+  #splitHero--{{ block.id }} .hero-image__wrapper .hero-title {
+    font-size: {{ block.settings.title_font_size }}px;
+    color: {{ block.settings.title_color }};
+  }
+  #splitHero--{{ block.id }} .hero-image__wrapper .hero-subtitle {
+    font-size: {{ block.settings.subtitle_font_size }}px;
+    color: {{ block.settings.subtitle_color }};
+  }
+
+  @media(max-width: 768px) {
+    #splitHero--{{ block.id }} .hero-image__wrapper .hero-title {
+      font-size: {{ block.settings.title_font_size_mobile }}px;
+    }
+
+    #splitHero--{{ block.id }} .hero-image__wrapper .hero-subtitle {
+      font-size: {{ block.settings.subtitle_font_size_mobile }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="splitHero--{{ block.id }}" class="split-hero">
+  <div class="hero-grid__item hero-image__wrapper lozad" data-bg="{{ hero_image_mobile }}" data-bg-md="{{ hero_image }}">
+    <div class="hero-text__wrapper">
+      {%- if block.settings.title != blank -%}
+        <div class="hero-title p-1">{{ block.settings.title }}</div>
+      {%- endif -%}
+      {%- if block.settings.subtitle != blank -%}
+        <div class="hero-subtitle p-1 mt-5">{{ block.settings.subtitle }}</div>
+      {%- endif -%}
+      {%- if block.settings.btn_text != blank -%}
+        <a href="{{ block.settings.btn_link }}" class="hero-btn button cta m-1">{{ block.settings.btn_text }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+  <div class="hero-grid__item hero-video__wrapper">
+    <div class="video-autoplay">
+      {%- render 'video', block: block -%}
+    </div>
+  </div>
+</div>

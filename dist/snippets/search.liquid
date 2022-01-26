@@ -1,0 +1,35 @@
+{%- comment -%}
+  Search bar with suggestions based on Vue  
+
+  Inputs:
+    id - string used as snippet id
+{%- endcomment -%}
+
+{%- liquid 
+  if id == blank
+    assign id = "1"
+  endif 
+  assign id = id | replace: "-", "_"
+-%}
+
+<div id="search-bar-{{ id }}" class="search-bar">
+  <div class="search-input relative">
+    <form action="/search">
+      <input name="q" id="search-bar-{{ id }}-input" placeholder="{{ 'action.search' | t }}" class="inputbox" autocomplete="off" />
+      <input type="hidden" name="type" value="product" />
+    </form>
+    <div class="input-clear icon close" onClick="hideSearchBar()"></div>
+  </div>
+</div>
+
+<script>
+  const hideSearchBar = () => {
+    if(document.getElementById('mobile-search')) {
+      document.getElementById('mobile-search').classList.remove('shown');
+    }
+    if(document.getElementById('menu__mobile')) {
+      document.getElementById('menu__mobile').classList.remove('active');
+    }
+    document.getElementsByTagName("body")[0].classList.remove('no-scroll');
+  }
+</script>

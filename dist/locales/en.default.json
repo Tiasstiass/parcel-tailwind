@@ -1,0 +1,251 @@
+{
+  "date_formats": {
+    "month_day_year": "%b %d, %Y"
+  },
+  "common": {
+    "or": "or",
+    "by": "by",
+    "via": "via",
+    "from": "From",
+    "to": "To",
+    "default": "Default",
+    "sort": "Sort",
+    "sort_by": "Sort by:",
+    "results": "results",
+    "product": "Product",
+    "products": "Products",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "sale": "Sale",
+    "sold_out": "Sold out",
+    "no_products": "No products",
+    "including_tax": "Including VAT",
+    "excluding_tax": "Excluding VAT",
+    "payment_accept": "We accept:",
+    "tax": "Tax",
+    "shipping": "Shipping",
+    "discount": "Discount",
+    "fulfilled": "Fulfilled",
+    "qty_limit_reached": "Maximum available qty reached",
+    "action": "Action",
+    "you_save": "You save"
+  },
+  "action": {
+    "check_variants": "View Product",
+    "search": "Search",
+    "cart": "Go to Cart",
+    "account": "Account",
+    "menu": "Menu",
+    "view_more": "view more",
+    "to_search": "Search",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "log_in": "Log in",
+    "sign_in": "Sign in",
+    "create_account": "Create account",
+    "restore": "Restore",
+    "send": "Send",
+    "reset_password": "Reset password",
+    "activate": "Activate",
+    "decline": "Decline",
+    "cancel": "Cancel",
+    "close": "Close",
+    "return_to_account_overview": "Return to account overview",
+    "forgot_your_password": "Forgot your password?",
+    "log_out": "Log out",
+    "edit_addresses": "Edit Addresses",
+    "add_new_address": "Add new Address",
+    "update_address": "Update Address",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add_to_cart": "Add to cart",
+    "preorder": "Preorder",
+    "continue_shopping": "Continue Shopping",
+    "track_shipment": "Track shipment",
+    "subscribe": "Subscribe",
+    "read_more": "Read more"
+  },
+  "form": {
+    "required": "Required fields",
+    "name": "Name",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "new_password": "New password",
+    "confirm_new_password": "Confirm new password",
+    "confirm_password": "Confirm password",
+    "company": "Company",
+    "address": "Address",
+    "apartment": "Apartment, suite, etc.",
+    "city": "City",
+    "country": "Country",
+    "zip_code": "Postal/Zip Code",
+    "phone": "Phone",
+    "message": "Message"
+  },
+  "newsletter_form": {
+    "title": "Newsletter",
+    "name": "Enter your name",
+    "email": "E-Mail",
+    "confirmation": "Thanks for subscribing",
+    "submit": "Sign Up"
+  },
+  "customer": {
+    "entry": {
+      "log_in": "Log in",
+      "create_account": "Create account",
+      "reset_password_notice": "We will send you an email to reset your password.",
+      "reset_password_response": "Sent recovery mail"
+    },
+    "account": {
+      "title": "Account overview",
+      "order_history": "Order History",
+      "addresses": "Addresses",
+      "my_address": "My address",
+      "order_number": "Order Number",
+      "order_date": "Order Date",
+      "payment_status": "Payment Status",
+      "fulfillment_status": "Fulfillment Status",
+      "total": "Total",
+      "no_orders": "No orders"
+    },
+    "order": {
+      "title": "Your order",
+      "order": "Order",
+      "ordered_on": "Ordered on",
+      "product": "Product",
+      "price": "Price",
+      "sku": "SKU",
+      "quantity": "Quantity",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "fulfilled_on": "Fulfilled on",
+      "payment_status": "Payment status",
+      "fulfillment_status": "Fulfillment status",
+      "billing_address": "Billing Address",
+      "shipping_address": "Shipping Address",
+      "country": "Country",
+      "province": "Province"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "add_new_address": "Add new Address",
+      "set_as_default_address": "Set as default Address",
+      "default_address": "Default Address",
+      "edit_address": "Edit Address",
+      "response": "Address updated",
+      "no_address": "There are no address yet.",
+      "age_confirmation": "I am over 18 years old.",
+      "age_confirmation_url": "Why is this important?*",
+      "age_confirmation_url_link": "/pages/18yo",
+      "marketing_confirmation": "As a customer, you will receive personalized marketing emails. To unsubscribe, you can uncheck the box or click on the Unsubscribe link in each subsequent email. For more information, please refer to the privacy policy."
+    },
+    "activate_account": {
+      "title": "Activate Account"
+    },
+    "reset_password": {
+      "title": "Reset Password"
+    },
+    "registration": {
+      "success": "Thank you, please check your email for confirmation."
+    }
+  },
+  "collections": {
+    "title": "Collections",
+    "collection": {
+      "filter_label": "Filter",
+      "filter_label_default": "Select Routine"
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "page_title": "Your cart",
+    "popup_title": "Product was added to the cart",
+    "subtotal": "Subtotal",
+    "empty": "Your cart is empty",
+    "shipping_fee": "Shipping",
+    "total": "Total",
+    "total_items": "Total ({{ count }} Products)",
+    "total_items_singular": "Total ({{ count }} Product)",
+    "total_artikel": "{{ count }} Products",
+    "total_title": "Order overview",
+    "secure_text": "Secure checkout with SSL protection.",
+    "discount_placeholder": "Enter your code",
+    "discount_apply": "Apply",
+    "discount_success": "Discount has been applied",
+    "discount_info": "Do you have a discount code?",
+    "discount_fail": "Unable to apply discount code (not found or not applicable to products in the cart)",
+    "discount_applied_message": "Discount %{amount}",
+    "discount_free_shipping_label": "Free shipping",
+    "popup_recommended_title": "You might also like"
+  },
+  "gift_card": {
+    "title": "Gift card",
+    "value": "value",
+    "left": "left",
+    "expires": "This gift card expires on",
+    "expired": "This gift card has expired on",
+    "disabled": "This gift card is disabled",
+    "redeem": "Redeem your gift card at",
+    "qr_identifier": "qr_identifier",
+    "shop_link": "Go to Shop",
+    "print": "Print",
+    "active": "Card active (will be expired on {{ expirity }})"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search",
+    "loading": "Loading",
+    "no_results": "No results"
+  },
+  "contact": {
+    "title": "Contact",
+    "response": "Thank you for your contact"
+  },
+  "password": {
+    "coming_soon": "Coming soon",
+    "store_owner": "Are you the store owner?"
+  },
+  "product": {
+    "overview": "Overview",
+    "ingredients": "Ingredients",
+    "reviews": "Reviews",
+    "benefits": "Benefits",
+    "application": "Application"
+  },
+  "404": {
+    "title": "404 Page Not Found",
+    "text": "The page you requested does not exist."
+  },
+  "footer": {
+    "menu": "Quick links",
+    "social": "Social",
+    "settings": "Settings",
+    "payment_methods": "Payment methods"
+  },
+  "geoip_modal": {
+    "countries": {
+      "usa": "North America",
+      "de": "Germany",
+      "uk": "United Kingdom",
+      "eu": "European Store"
+    },
+    "general": {
+      "title": "Welcome",
+      "subtitle": "Thanks for stopping by.",
+      "description_html": "It looks like you're visiting from <span class='geoip-country'></span>. We ship to <span class='geoip-country'></span> only from <span class='geoip-shop-link'></span>",
+      "cta_html": "Go to <span class='geoip-shop-link'></span>",
+      "cta_dismiss_html": "Stay on <span class='geoip-host'></span>",
+      "select_region_label": "Or select another region below:"
+    }
+  },
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  "tags": {
+    "new": "New",
+    "featured": "Featured"
+  }
+}

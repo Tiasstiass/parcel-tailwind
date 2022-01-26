@@ -1,0 +1,87 @@
+{% stylesheet %}
+  .product-details__gallery-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 20px;
+  }
+  .product-details__gallery-thumbs > div {
+    flex: 0 0 calc(50% - 10px);
+  }
+{% endstylesheet %}
+
+{%- render 'product-page', product: product, section: section -%}
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "settings": [
+
+      ]
+    },
+    {
+      "type": "gallery",
+      "name": "Gallery",
+      "settings": [
+
+      ]
+    },
+    {
+      "type": "review-badge",
+      "name": "Review stars",
+      "settings": [
+
+      ]
+    },
+    {
+      "type": "meta-text",
+      "name": "Meta text",
+      "settings": [
+
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "settings": [
+
+      ]
+    },
+    {
+      "type": "form",
+      "name": "Form (buy button)",
+      "settings": [
+
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "settings": [
+
+      ]
+    },
+    {
+      "type": "collection_name",
+      "name": "Collection name",
+      "settings": [
+
+      ]
+    }
+  ]
+}
+{% endschema %}

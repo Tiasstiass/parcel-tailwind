@@ -1,0 +1,7 @@
+/* Components that can be overridden inline */
+@layer components {
+  .card {
+    @apply flex;
+    background-color: theme('colors.orange');
+  }
+}

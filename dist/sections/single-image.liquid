@@ -1,0 +1,36 @@
+{%- render 'single-image', block: section -%}
+
+{% schema %}
+{
+  "name": "Single Image",
+  "class": "shopify-section single-image",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Upload Image"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Image Width",
+      "default": 80
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Single Image",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

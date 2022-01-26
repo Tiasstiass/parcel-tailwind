@@ -1,0 +1,118 @@
+{% layout 'theme' %}
+
+<div id="customer" class="shopify-section customer__account page-width pt-10 pb-10">
+
+  {%- style -%}
+    .account__heading {
+      color: #006874;
+    }
+    .separator__solid {
+      border-top: 1px solid #7E7E7E;
+      margin-left: 0;
+    }
+    #customer_orders {
+      text-align: center;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    #customer_orders th {
+      font-weight: normal;
+      border-bottom: 1px solid var(--color__border-secondary);
+      padding: 10px 5px;
+    }
+    #customer_orders td {
+      padding: 10px 5px;
+    }
+    @media (min-width:768px) {
+      .account__heading {
+        text-align: left;
+      }
+    }
+    @media (max-width:768px) {
+      #view_address {
+        width: 100%;
+      }
+      .orders__grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+      .orders__table {
+        font-size: 0.8em;
+      }
+    }
+    .orders__table a {
+      color: var(--heading-color)!important;
+    }
+  {%- endstyle -%}
+
+  <div class="heading-h3 text-center">
+    {{ 'customer.account.title' | t }}
+  </div>
+
+  <div id="admin-header" class="customer__log-out flex justify-center items-center gap-5 mt-10 mb-10">
+    <a href="{{ routes.account_logout_url }}" class="flex justify-center items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" fill="none" viewBox="0 0 18 19" width="20px">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4.5a3 3 0 116 0 3 3 0 01-6 0zm3-4a4 4 0 100 8 4 4 0 000-8zm5.58 12.15c1.12.82 1.83 2.24 1.91 4.85H1.51c.08-2.6.79-4.03 1.9-4.85C4.66 11.75 6.5 11.5 9 11.5s4.35.26 5.58 1.15zM9 10.5c-2.5 0-4.65.24-6.17 1.35C1.27 12.98.5 14.93.5 18v.5h17V18c0-3.07-.77-5.02-2.33-6.15-1.52-1.1-3.67-1.35-6.17-1.35z" fill="currentColor">
+      </svg>
+      {{ 'action.log_out' | t }}
+    </a>
+    <div class="action_link action_return note" id='return_to_store'>
+      <a href="{{ shop.url }}">{{ 'action.continue_shopping' | t }}</a>
+    </div>
+  </div>
+
+  <div class="orders__grid grid lg:grid-cols-2 gap-4">
+    <div>
+      <h4 class="account__heading text-center">{{ 'customer.account.my_address' | t }}</h4>
+
+      <hr class="separator__solid">
+
+      <div class="address note">
+        {%- if customer.default_address != nil -%}
+          <p>{{ customer.default_address.address1 }}</p>
+          {%- if customer.default_address.address2 != "" -%}
+            <p>{{ customer.default_address.address2 }}</p>
+          {%- endif -%}
+          <p>{{ customer.default_address.city }}, {% if address.province_code %}{{ customer.default_address.province_code }}, {% endif %}{{ customer.default_address.country }}</p>
+          <p>{{ customer.default_address.zip }}</p>
+          <p>{{ customer.default_address.phone }}</p>
+        {%- else -%}
+          <p>{{ 'customer.addresses.no_address' | t }}</p>
+        {%- endif -%}
+        <a id="view_address" class="button cta" href="/account/addresses">{{ 'customer.addresses.add_new_address' | t }}</a>
+      </div>
+    </div>
+    <div class="mt-10">
+      <h4 class="account__heading text-center">{{ 'customer.account.order_history' | t }}</h4>
+      <div id="customer_orders">
+        {%- if customer.orders.size != 0 -%}
+          <div class="overflow-x-auto">
+            <table class="orders__table w-full text-left" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                  <th class="order_number">{{ 'customer.order.order' | t }}</th>
+                  <th class="date">{{ 'customer.order.ordered_on' | t }}</th>
+                  <th class="payment_status">{{ 'customer.order.payment_status' | t }}</th>
+                  <th class="fulfillment_status">{{ 'customer.order.fulfillment_status' | t }}</th>
+                  <th class="total">{{ 'customer.order.total' | t }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for order in customer.orders -%}
+                <tr class="{% cycle 'odd', 'even' %} {% if order.cancelled %}cancelled_order{% endif %}">
+                  <td>{{ order.name | link_to: order.customer_url }}</td>
+                  <td><span class="note">{{ order.created_at | date: "%b %d, %Y" }}</span></td>
+                  <td><span class="status_{{ order.financial_status }}">{{ order.financial_status }}</span></td>
+                  <td><span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status }}</span></td>
+                  <td><span class="total money">{{ order.total_price | money }}</span></td>
+                </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+        {%- else -%}
+          <p>{{ 'customer.account.no_orders' | t }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>

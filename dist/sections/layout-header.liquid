@@ -1,0 +1,58 @@
+{% comment %}theme-check-disable{% endcomment %}
+{%- render 'layout-header' -%}
+{% comment %}theme-check-enable{% endcomment %}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_desktop",
+      "label": "Logo desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_mobile",
+      "label": "Logo mobile"
+    },
+    {
+      "type": "link_list",
+      "id": "mainmenu_desktop",
+      "label": "Main menu desktop",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "mainmenu_tablet",
+      "label": "Main menu tablet"
+    },
+    {
+      "type": "link_list",
+      "id": "mainmenu_mobile",
+      "label": "Main menu mobile",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Mobile sidebar"
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_menu1",
+      "label": "Extra menu 1"
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_menu2",
+      "label": "Extra menu 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "sidebar_social",
+      "label": "Show social icons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

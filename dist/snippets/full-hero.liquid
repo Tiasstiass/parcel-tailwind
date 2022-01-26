@@ -1,0 +1,118 @@
+{%- comment -%}
+  Inputs:
+    - block - block or section object
+{%- endcomment -%}
+
+{%- liquid 
+  if block.settings.hero_bg != blank
+    if block.settings.hero_bg contains '.jpg'
+      assign hero_bg = block.settings.hero_bg | image_url: width: 1920, format: 'pjpg'
+    else
+      assign hero_bg = block.settings.hero_bg | image_url: width: 1920
+    endif
+  endif
+
+  if block.settings.hero_bg_mobile != blank
+    if block.settings.hero_bg_mobile contains '.jpg'
+      assign hero_bg_mobile = block.settings.hero_bg_mobile | image_url: width: 768, format: 'pjpg'
+    else
+      assign hero_bg_mobile = block.settings.hero_bg_mobile | image_url: width: 768
+    endif
+  endif
+
+  assign title = block.settings.title
+  assign subtitle = block.settings.subtitle
+  if blog
+    assign title = blog.title
+    if blog.metafields.custom_fields["blog_hero_image"] != blank
+      assign hero_bg = blog.metafields.custom_fields["blog_hero_image"]
+      assign hero_bg_mobile = blog.metafields.custom_fields["blog_hero_image"]
+    endif
+    if blog.metafields.custom_fields["blog_subtitle"] != blank
+      assign subtitle = blog.metafields.custom_fields["blog_subtitle"]
+    endif
+  endif
+-%}
+{%- style -%}
+#fullHero--{{ block.id }} .full-hero__wrapper {
+  {%- if block.settings.video_url == blank -%}
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: cover;
+  {%- endif -%}
+}
+#fullHero--{{ block.id }} .hero-title {
+  font-size: {{ block.settings.title_font_size }}px;
+  color: {{ block.settings.title_color }};
+  font-family: var(--font-heading);
+}
+#fullHero--{{ block.id }} .hero-subtitle {
+  font-size: {{ block.settings.subtitle_font_size }}px;
+  color: {{ block.settings.subtitle_color }};
+  font-family: var(--font-heading);
+}
+
+#fullHero--{{ block.id }} .hero-button {
+  font-size: {{ block.settings.btn_font_size }}px !important;
+  color: {{ block.settings.btn_text_color }} !important;
+  border-color: {{ block.settings.btn_text_color }} !important;
+}
+
+#fullHero--{{ block.id }} .hero-button:hover {
+  color: #fff!important;
+}
+@media (max-width: 768px) {
+  #fullHero--{{ block.id }} .hero-title {
+    font-size: 24px !important;
+    line-height: 1.5rem;
+  }
+  #fullHero--{{ block.id }} .hero-subtitle {
+    display: block !important;
+    font-size: 12px !important;
+  }
+}
+{%- endstyle -%}
+
+<div id="fullHero--{{ block.id }}" class="full-hero">
+  <div class="full-hero__wrapper">
+    {%- if block.settings.video_url != blank -%}
+      <div class="video-autoplay">
+        {%- render 'video', block: block -%}
+      </div>
+    {%- else -%}
+      <picture class="lozad">
+        <source 
+          srcset="{{ hero_bg }}" 
+          width="auto"
+          height="auto"
+          media="(min-width: 768px)" 
+        />
+        <img 
+          loading="lazy"
+          srcset="{{ hero_bg_mobile }}" 
+          width="auto"
+          height="auto"
+        />
+      </picture>
+    {% endif %}
+    <div class="full-hero-text__wrapper">
+      {%- liquid 
+        assign title = block.settings.title
+        if collection != blank and block.settings.collection_title
+          assign title = collection.title
+        endif
+      -%}
+      {%- if title != blank -%}
+        <div class="hero-title p-3">
+          {{ title }}
+        </div>
+      {%- endif -%}
+      {%- if subtitle != blank -%}
+        <div class="hero-subtitle p-3">{{ subtitle }}</div>
+      {%- endif -%}
+      {%- if block.settings.btn_text != blank -%}
+        <a href="{{ block.settings.btn_link }}" class="hero-button button cta my-3">{{ block.settings.btn_text }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

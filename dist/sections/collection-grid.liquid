@@ -1,0 +1,32 @@
+{%- style -%}
+  .collection-product {
+    max-width: 380px;
+  }
+  .collection-product__image * {
+    max-height: 300px;
+    object-fit: contain;
+  }
+{%- endstyle -%}
+
+{%- paginate collection.products by 10 -%}
+  <div class="collection page-width">
+    <div class="products-grid flex flex-wrap items-center justify-center gap-10 mt-10 mb-10">
+      {%- for product in collection.products -%}
+        {%- unless  product.tags contains 'no-purchase' -%}
+          {%- render 'collection-grid__item', product: product -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      {%- render 'pagination', paginate: paginate -%}
+      <script>
+        document.addEventListener("page:loaded", function() {
+          theme.utils.infiniteScrollPagination(".collection", ".products-grid", ".collection-product");
+        });
+      </script>
+    {%- endif -%}
+
+  </div>
+
+{%- endpaginate -%}

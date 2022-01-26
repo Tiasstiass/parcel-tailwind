@@ -1,0 +1,264 @@
+{%- comment -%}
+  Discount app - apply discount codes in your cart
+  Inputs:
+    snippet_id - string with unique id
+{%- endcomment -%}
+
+{%- assign snippet_id = snippet_id | replace: "-", "_" -%}
+
+{% style %}
+  #discount-app-{{ snippet_id }}-input, #discount-app-{{ snippet_id }}-button { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #discount-app-{{ snippet_id }}-button { 
+    min-width: 100px;
+  }
+  #discount-app-{{ snippet_id }}.active #discount-app-{{ snippet_id }}-clear {
+    display: flex !important;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    transform: translateX(-100%);
+  }
+  .discount-app-{{ snippet_id }}--inputs-wrapper {
+    display: flex;
+    align-items: flex-end;
+    grid-gap: 10px;
+  }
+  #discount-app-{{ snippet_id }}-result {
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  @media (max-width: 767px) {
+    #discount-app-{{ snippet_id }}-input {
+      font-size: 16px !important; 
+    }
+  }
+{% endstyle %}
+
+<div id="discount-app-{{ snippet_id }}">
+  <div class="discount-app-{{ snippet_id }}--inputs-wrapper">
+    <label>
+      <span class="block relative">
+        <input 
+          id="discount-app-{{ snippet_id }}-input" 
+          class="skeleton-loading"
+          name="discount-app-{{ snippet_id }}-input" 
+          placeholder="{{ 'cart.discount_placeholder' | t }}" 
+        />
+        <span 
+          id="discount-app-{{ snippet_id }}-clear" 
+          onClick="discount_app_{{ snippet_id }}.submitCode('clearDiscount')"
+          style="display: none;" 
+        >&times;</span>
+      </span>
+    </label>
+    <button 
+      class="button-secondary cta skeleton-loading"
+      id="discount-app-{{ snippet_id }}-button" 
+      onClick="discount_app_{{ snippet_id }}.submitCode()"
+    >
+      {{ 'cart.discount_apply' | t }}
+    </button>
+  </div>
+  <div id="discount-app-{{ snippet_id }}-result"></div>
+  
+  <script>
+    window.discount_app_{{ snippet_id }} = window.discount_app_{{ snippet_id }} || {};
+    /**
+    * Apply discount code 
+    */
+    discount_app_{{ snippet_id }}.submitCode = (clearDiscount = false) => {
+      if(discount_input_{{ snippet_id }}.value.length < 3) return;
+      let container = document.getElementById("discount-app-{{ snippet_id }}");
+      container.classList.add("loading");
+      let code = discount_input_{{ snippet_id }}.value;
+      if(clearDiscount) { 
+        // remove discount code      
+        code = null;
+      }
+      theme.cart.getCart().then((cart) => {
+        let cart_items = [];
+        cart.items.forEach(function(item) {
+          cart_items.push(
+            {
+              "variant_id": item.variant_id,
+              "quantity": item.quantity,
+              "properties": {}
+            }
+          );
+        });
+        let currency = Shopify.currency.active;
+        let checkout_payload = {
+          "checkout": {
+            "discount_code": code,
+            "line_items": cart_items,
+            "presentment_currency": currency
+          }
+        };
+        const authorization_token = document.head.querySelector('[name=shopify-checkout-api-token][content]').content;
+        // get and create new checkout
+        fetch("/wallets/checkouts/",
+          {
+              headers: {
+                'accept': '*/*',
+                'content-Type': 'application/json',
+                'authorization': 'Basic ' + btoa(authorization_token)
+              },
+              method: "POST",
+              body: JSON.stringify(checkout_payload)
+          })
+          .then((res) => { 
+            return res.json();
+          }).then((data) => {
+            container.classList.remove("loading");
+            let result = data.checkout;
+
+            // Success result
+            if(result) {
+              // Discount remove and clear
+              if(clearDiscount) {
+                fetch("/checkout?checkout[clear_discount]=1&discount=%20");
+                document.dispatchEvent(new CustomEvent("discount:clear"));
+                document.getElementById("discount-app-{{ snippet_id }}-result").innerHTML = "";
+                document.getElementById("discount-app-{{ snippet_id }}").classList.remove("active");
+                discount_input_{{ snippet_id }}.value = '';
+                discount_app_{{ snippet_id }}.fixCartPrices(result, 'clearDiscount');
+                // clear saved codes
+                localStorage.removeItem("discount-app_code");
+                document.cookie = "discount_code=;expires=" + new Date(0).toUTCString();
+              }
+              // Discount apply
+              else {
+                // Check if code allowed
+                if(result.applied_discount.applicable) {
+                  document.dispatchEvent(new CustomEvent("discount:success", {detail: result}));
+                  // apply discount code
+                  fetch("/discount/" + code);
+                  document.getElementById("discount-app-{{ snippet_id }}-result").innerHTML = "{{ 'cart.discount_success' | t }}";
+                  document.getElementById("discount-app-{{ snippet_id }}").classList.add("active");
+
+                  // extra actions
+                  discount_app_{{ snippet_id }}.fixCartPrices(result);
+                  localStorage.setItem("discount-app_code", code);
+                }
+                // Code denied for some reason
+                else {
+                  let reason = result.applied_discount.non_applicable_reason;
+                  document.getElementById("discount-app-{{ snippet_id }}-result").innerHTML = reason;               
+                }
+              }
+            } 
+            // Fail
+            else {
+              document.getElementById("discount-app-{{ snippet_id }}-result").innerHTML = `
+                {{ 'cart.discount_fail' | t }}
+              `;
+              document.dispatchEvent(new CustomEvent("discount:fail"));
+            }
+          }).catch((e) => {
+            document.getElementById("discount-app-{{ snippet_id }}-result").innerHTML = "Request fail (not working on the dev stores preview)";
+            container.classList.remove("loading");
+          });
+      });
+    };
+
+    /** 
+     * Discount submit
+    */
+    let discount_input_{{ snippet_id }} = document.querySelector("input[name=discount-app-{{ snippet_id }}-input]");
+    if(discount_input_{{ snippet_id }}) {
+      discount_input_{{ snippet_id }}.addEventListener("keyup", function(e) {
+        if(e.key == "Enter"
+          && discount_input_{{ snippet_id }}.value.length >= 3
+        ) {
+          discount_app_{{ snippet_id }}.submitCode();
+        }
+      });
+    }
+
+    /**
+    * Discount success
+    */
+    document.addEventListener("discount:success", (e) => {
+      let result = e.detail;
+    });
+
+    /**
+    * Fix cart prices
+     * result - result json from api
+     * clearDiscount - clear and remove discount executed
+    */
+    discount_app_{{ snippet_id }}.fixCartPrices = (result, clearDiscount = false) => {
+      let subtotal           = document.getElementById("cart-subtotal");
+      let total              = document.getElementById("cart-total");
+      let shipping           = document.getElementById("cart-shipping");
+      let discountNote       = document.getElementById("discount-note");
+      let discountNoteAmount = document.getElementById("discount-note-amount");
+      let discount_type      = "";
+      if(clearDiscount) {
+        discount_type = "clearDiscount";
+      }
+      else {
+        discount_type = result.applied_discount.value_type;
+      }
+      let discount_amount = 0;
+      if(discount_type == "shipping") {
+        // free shipping applied
+        discount_amount = parseFloat(shipping.getAttribute("data-value"));
+        shipping.innerHTML = "{{ 'cart.discount_free_shipping_label' | t }} -" + theme.Currency.formatMoney(discount_amount);
+        shipping.setAttribute("data-free-shipping-applied", "true");
+      }
+      else {
+        // percentage discount applied
+        discount_amount = parseFloat(result.total_discount_amount) * 100;
+      }
+      let subtotal_amount = parseFloat(subtotal.getAttribute("data-value"));
+      let total_amount = parseFloat(total.getAttribute("data-value"));
+
+      if(discount_type == "shipping") {
+        // restore subtotal amount value
+        subtotal.innerHTML = theme.Currency.formatMoney(subtotal_amount);
+        discountNote.classList.add("hidden");
+      }
+      else {
+        // percentage
+        subtotal.innerHTML = theme.Currency.formatMoney(subtotal_amount);
+        // restore shipping amount value
+        shipping.innerHTML = theme.Currency.formatMoney(parseFloat(shipping.getAttribute("data-value")));
+        discountNote.classList.remove("hidden");
+        discountNoteAmount.innerHTML = `-${theme.Currency.formatMoney(discount_amount)}`; 
+        total.innerHTML = theme.Currency.formatMoney(total_amount - discount_amount);
+      }
+      
+      document.querySelectorAll(".cart-total-price").forEach((el) => {
+        el.innerHTML = theme.Currency.formatMoney(total_amount - discount_amount);
+      });
+      if(discount_type == "clearDiscount") {
+        discountNote.classList.add("hidden");
+      }
+    };
+
+    /**
+    * Apply saved discount code
+    */
+    if(localStorage.getItem("discount-app_code")
+      || document.cookie.includes("discount_code") // code applied from url
+    ) {
+      window.addEventListener("DOMContentLoaded", () => {
+        let code = localStorage.getItem("discount-app_code");
+        if(!code) {
+          code = document.cookie.split("discount_code=")[1].split(";")[0];
+        }
+        discount_input_{{ snippet_id }}.value = code;
+        discount_app_{{ snippet_id }}.submitCode();
+      });
+    }
+  </script> 
+</div>

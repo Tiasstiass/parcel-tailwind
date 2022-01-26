@@ -1,0 +1,436 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "ShopLab",
+    "theme_version": "2.0.0",
+    "theme_author": "shoplab",
+    "theme_documentation_url": "https://github.com/ShopLab-Team/shopify-theme-framework-new",
+    "theme_support_url": "https://github.com/ShopLab-Team/shopify-theme-framework-new"
+  },
+  {
+    "name": "Theme Locales",
+    "settings": [
+      {
+        "type": "select",
+        "id": "theme_locale_iso_code",
+        "options": [
+          {
+            "value": "US",
+            "label": "US Store"
+          },
+          {
+            "value": "UK",
+            "label": "UK Store"
+          },
+          {
+            "value": "DE",
+            "label": "DE Store"
+          }
+        ],
+        "default": "DE",
+        "label": "Select the Country for this theme",
+        "info": "We will use this later, to have the option to differ func or trackings if necessary"
+      }
+    ]
+  },
+  {
+    "name": "SEO Lang Tag",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Store 1"
+      },
+      {
+        "type": "text",
+        "id": "alternate_store1",
+        "label": "Domain (without https)"
+      },
+      {
+        "type": "text",
+        "id": "alternate_lang1",
+        "label": "Language code"
+      },
+      {
+        "type": "header",
+        "content": "Store 2"
+      },
+      {
+        "type": "text",
+        "id": "alternate_store2",
+        "label": "Domain (without https)"
+      },
+      {
+        "type": "text",
+        "id": "alternate_lang2",
+        "label": "Language code"
+      },
+      {
+        "type": "header",
+        "content": "Store 3"
+      },
+      {
+        "type": "text",
+        "id": "alternate_store3",
+        "label": "Domain (without https)"
+      },
+      {
+        "type": "text",
+        "id": "alternate_lang3",
+        "label": "Language code"
+      }
+    ]
+  },
+  {
+    "name": "3rd Party Tracking",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_third_party_tracking",
+        "default": false,
+        "label": "Enable 3rd Party Tracking Snippets",
+        "info": "This will be disabled by default on dev stores and staging"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General"
+      },
+      {
+        "type": "color",
+        "id": "color_body_bg",
+        "label": "Page Background",
+        "default": "#E5E5E5"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text",
+        "label": "Text Primary",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text_secondary",
+        "label": "Text Secondary",
+        "default": "#fff"
+      },
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Headings color",
+        "default": "#000"
+      },
+      {
+        "type": "header",
+        "content": "Button Colors"
+      },
+      {
+        "type": "color",
+        "id": "button_primary_color",
+        "label": "Primary Btn Font",
+        "default": "#003A2B"
+      },
+      {
+        "type": "color",
+        "id": "button_primary_bg",
+        "label": "Primary Btn Background",
+        "default": "#A1EC95"
+      },
+      {
+        "type": "color",
+        "id": "button_secondary_color",
+        "label": "Secondary Btn Font",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "button_secondary_bg",
+        "label": "Secondary Btn Background",
+        "default": "#278847"
+      },
+      {
+        "type": "header",
+        "content": "Product"
+      },
+      {
+        "type": "color",
+        "id": "price_color",
+        "label": "Price",
+        "default": "#000"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Main text"
+      },
+      {
+        "type": "text",
+        "id": "main_font",
+        "label": "Font-family name",
+        "default": "Overpass",
+        "info": "Font files need to be uploaded inside Assets folder (handleized font name)"
+      },
+      {
+        "type": "text",
+        "id": "text_size",
+        "label": "Text size",
+        "default": "12pt"
+      },
+      {
+        "type": "text",
+        "id": "text_size_mobile",
+        "label": "Text size (mobile)",
+        "default": "11pt"
+      },
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "type": "text",
+        "id": "heading_size",
+        "label": "Headings font size",
+        "default": "25pt"
+      },
+      {
+        "type": "text",
+        "id": "heading_size_mobile",
+        "label": "Headings font size (mobile)",
+        "default": "20pt"
+      },
+      {
+        "type": "text",
+        "id": "heading_font",
+        "label": "Font-family name",
+        "default": "Overpass",
+        "info": "Font files need to be uploaded inside Assets folder (handleized font name)"
+      },
+      {
+        "type": "header",
+        "content": "Menu"
+      },
+      {
+        "type": "text",
+        "id": "menu_font",
+        "label": "Menu Font-family name",
+        "default": "Montserrat Regular",
+        "info": "Font files need to be uploaded inside Assets folder (handleized font name)"
+      },
+      {
+        "type": "header",
+        "content": "Text blocks"
+      },
+      {
+        "type": "text",
+        "id": "text_font",
+        "label": "Text blocks Font-family name",
+        "default": "Montserrat Regular",
+        "info": "Font files need to be uploaded inside Assets folder (handleized font name)"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Header"
+      },
+      {
+        "type": "range",
+        "id": "header_height",
+        "min": 30,
+        "max": 130,
+        "step": 1,
+        "unit": "px",
+        "label": "Header height",
+        "default": 54
+      },
+      {
+        "type": "range",
+        "id": "header_menu_height",
+        "min": 30,
+        "max": 130,
+        "step": 1,
+        "unit": "px",
+        "label": "Header main menu height",
+        "default": 54
+      },
+      {
+        "type": "checkbox",
+        "id": "header_fixed",
+        "label": "Fixed header?",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_additional_buttons",
+        "default": true,
+        "label": "Enable Shopify Express Checkout Buttons"
+      },
+      {
+        "type": "header",
+        "content": "Shipping"
+      },
+      {
+        "type": "text",
+        "id": "cart_shipping_amount",
+        "default": "30",
+        "label": "Shipping default amount"
+      },
+      {
+        "type": "header",
+        "content": "Cart popup"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_popup_enable",
+        "default": true,
+        "label": "Enable Cart popup?"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_popup_recommendations",
+        "default": true,
+        "label": "Enable Cart popup recommended products?"
+      },
+      {
+        "type": "header",
+        "content": "Discount field"
+      },
+      {
+        "type": "checkbox",
+        "id": "discount_app_enable",
+        "default": true,
+        "label": "Enable Cart discount field?"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_email_link",
+        "label": "E-mail",
+        "info": "example@mail.com"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https://www.facebook.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter",
+        "info": "https://twitter.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "info": "https://www.pinterest.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "https://instagram.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat",
+        "info": "https://www.snapchat.com/add/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok",
+        "info": "https://www.tiktok.com/@shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr",
+        "info": "http://shopify.tumblr.com"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_link",
+        "label": "LinkedIn",
+        "info": "https://www.linkedin.com/in/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https://www.youtube.com/user/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo",
+        "info": "https://vimeo.com/shopify"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32 x 32px"
+      }
+    ]
+  },
+  {
+    "name": "Product price",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "price_unit",
+        "default": false,
+        "label": "Show product unit price (if defined)"
+      },
+      {
+        "type": "range",
+        "id": "price_unit_font_size",
+        "min": 8,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Unit price font size",
+        "default": 10
+      }
+    ]
+  }
+]

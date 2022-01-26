@@ -1,0 +1,240 @@
+{%- comment -%}
+  Inputs:
+    section - section with settings
+{%- endcomment -%}
+
+{%- style -%}
+  .main-menu__desktop {
+    display: inline-grid;
+    grid-template-columns: repeat(13, auto) 76px;
+    height: 100%;
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  #main-menu__tablet .main-menu__desktop {
+    grid-template-columns: repeat(9, auto);
+  }
+  .main-menu__desktop a:last-child {
+    width: 76px;
+  }
+  #main-menu__tablet .main-menu__desktop a:last-child {
+    width: auto;
+  }
+  .main-menu__desktop > a {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  #site-header .menu:last-child {
+    padding-right: 0 !important;
+  }
+  #mobile-search {
+    padding: 10px 20px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 22;
+  }
+  #search-bar-mobile_search {
+    max-width: var(--content-width-desktop);
+    margin: 0 auto;
+  }
+
+  @media (min-width: 1024px) {
+    #main-menu__tablet {
+      display: none !important;
+    }
+  }
+
+  /* enable/disable menu for tablets  */
+  @media (max-width: 1023px) {
+
+    #main-menu__desktop.tablet-enabled {
+      display: none !important;
+    }
+
+    #main-menu__tablet.tablet-enabled {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #mobile-search {
+      position: relative;
+      background: var(--color__3);
+      border-top: 1px solid var(--color__general-border);
+      border-bottom: 1px solid var(--color__general-border);
+      padding: 15px 20px;
+    }
+    #search-bar-mobile_search-input {
+      border-radius: 100px;
+      border: none !important;
+      background: var(--color__4);
+      color: var(--text-color-primary);
+    }
+    #search-bar-mobile_search-input::placeholder {
+      color: var(--text-color-primary);
+    }
+    #search-bar-mobile_search .icon:before,
+    #search-bar-mobile_search .icon:after {
+      background: var(--text-color-primary);
+    }
+    .site-header__wrapper {
+      align-items: stretch !important;
+    }
+    .site-header__wrapper > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+    }
+    .site-header__wrapper .header-right {
+      border-right: none;
+      border-left: 1px solid var(--color__general-border);
+    }
+  }
+  .no-scroll #mobile-search {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 23;
+  }
+  #mobile-search input {
+    width: 100%;
+    padding: 14px 20px !important;
+  }
+  .search-suggestions {
+    background: #fff;
+    padding: 10px;
+    border: 1px solid var(--color__general-border);
+    color: var(--text-color-primary);
+  }
+  .icon-search__wrapper {
+    cursor: pointer;
+  }
+  #mobile-search.shown {
+    display: block !important;
+  }
+  #mobile-search .close {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-56%) !important;
+  }
+  .logo-part2 {
+    font-family: var(--font-menu);
+  }
+  .logo__main-container a {
+    color: var(--color__deep-teal);
+  }
+  .site-header__wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .hasProductOffers:last-child {
+    justify-self: right;
+  }
+{%- endstyle -%}
+
+<div id="site-header" class="relative">
+  <div id="top-header-container">
+    <div class="site-header__wrapper flex justify-between items-center">
+
+      <!-- site logo -->
+      <div class="logo__main-container flex-auto text-center">
+        <a href="{{ routes.root_url }}" title="{{ shop.name }}" id="logo-desktop">
+          {%- if section.settings.logo_desktop != blank -%}
+            <img
+              loading="lazy"
+              src="{{ section.settings.logo_desktop | image_url: width: 30 }} "
+              data-src="{{ section.settings.logo_desktop | image_url: width: 200 }}"
+              class="lozad"
+              width="100"
+              height="48"
+            />
+          {%- else -%}
+            {%- assign parts = shop.name | split: "." -%}
+            <span class="logo-part1">{{ parts[0] }}</span>
+            {%- if parts.size > 1 -%}
+              <span class="logo-dot">.</span><span class="logo-part2">{{ parts[1] }}</span>
+            {%- endif -%}
+          {%- endif -%}
+        </a>
+      </div>
+
+      <!-- header icons -->
+      <div class="header-right flex">
+        {%- render 'layout-mobile-sidebar', section: section -%}
+
+        <div class="header-right__container relative hidden md:flex">
+          <div class="header-icons flex items-center">
+            <!-- search -->
+            <div id="search-desktop" class="icon-search__wrapper">
+              {%- render 'icon-search', fill: '#003A2B', size: '32x28' -%}
+            </div>
+
+            <!-- user -->
+            {%- if shop.customer_accounts_enabled -%}
+            <div class="icon-user__wrapper">
+              <a href="/account">
+                {%- render 'icon-user', fill: '#003A2B', size: '28x28' -%}
+              </a>
+            </div>
+            {%- endif -%}
+
+            <!-- cart -->
+            <div id="mini-cart-container" class="relative">
+              <a
+                href="{{ routes.cart_url }}"
+                id="header-cart-button"
+              >
+                {%- render 'icon-cart', fill: '#003A2B', size: '32x27' -%}
+                <div id="cart-bubble-counter" class="hidden">
+                  <span>{{ cart.item_count }}</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- main menu -->
+  {%- if section.settings.mainmenu_tablet != blank -%}
+    <div id="main-menu__desktop" class="hidden md:flex flex-col justify-center tablet-enabled">
+      {%- render 'layout-main-menu-desktop', menu: section.settings.mainmenu_desktop -%}
+    </div>
+
+    <div id="main-menu__tablet" class="hidden md:flex flex-col justify-center tablet-enabled">
+      {%- render 'layout-main-menu-desktop', menu: section.settings.mainmenu_tablet -%}
+    </div>
+
+  {%- else -%}
+    <div id="main-menu__desktop" class="hidden md:flex flex-col justify-center">
+      {%- render 'layout-main-menu-desktop', menu: section.settings.mainmenu_desktop -%}
+    </div>
+
+  {%- endif -%}
+</div>
+
+<div id="mobile-search" class="md:hidden">
+  {%- render 'search', id: 'mobile-search' -%}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Searchbar appearance on Desktop
+    el = document.getElementById("search-desktop");
+    el.addEventListener("click", function(e) {
+      let searchbar = document.getElementById("mobile-search");
+      searchbar.classList.toggle("shown");
+      let input = document.getElementById("search-bar-mobile_search-input");
+      if(input) {
+        input.focus();
+      }
+    });
+  });
+</script>

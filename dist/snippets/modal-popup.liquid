@@ -1,0 +1,13 @@
+{%- comment -%}
+  Inputs:
+    content - modal content
+    id - modal id
+    extraAttributes - custom parameters for popup window, e.g. for set custom styles
+{%- endcomment -%}
+
+<div class="modal-popup" data-modal-id="{{ id }}" id="{{ id }}">
+  <div class="modal-popup__content" {{ extraAttributes }}>
+    <div class="modal-popup__close icon close"></div>
+    {{ content }}
+  </div>
+</div>
