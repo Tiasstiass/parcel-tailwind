@@ -1,8 +1,8 @@
 module.exports = {
   content: [
-     "./sections/**/*.liquid",
-     "./snippets/**/*.liquid",
-     "./styles/**/*.css"
+     "./dist/sections/**/*.liquid",
+     "./dist/snippets/**/*.liquid",
+     "./src/styles/**/*.css"
   ],
   theme: {
     screens: {
@@ -24,9 +24,7 @@ module.exports = {
       'gray': '#8492a6',
       'gray-light': '#d3dce6',
     },
-    fontFamily: {
-      sans: ['Overpass', 'sans-serif'],
-    },
+    
     extend: {
       spacing: {
         '128': '32rem',

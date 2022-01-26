@@ -1,13 +1,14 @@
 {
   "name": "parcel-test",
-  "description": "[![Build status](https://github.com/shopify/dawn/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Shopify/dawn/actions/workflows/ci.yml?query=branch%3Amain) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=informational)](/.github/CONTRIBUTING.md)",
+  "description": "Parcel tailwind test",
   "version": "1.0.0",
   "author": "Tiass",
   "license": "MIT",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "watch": "parcel watch styles/main.css --dist-dir assets/ & shopify theme serve",
-    "build": "parcel build styles/main.css --dist-dir assets/ & shopify theme push"
+    "watch": "concurrently \"parcel watch ./src/styles/main.css --dist-dir dist/assets/\" \"cd dist && shopify theme serve\"",
+    "test": "concurrently \"parcel watch ./src/styles/main.css --dist-dir dist/assets/\" \"cd dist && shopify theme serve\"",
+    "build": "concurrently \"parcel build ./src/styles/main.css --dist-dir dist/assets/\" \"shopify theme push\""
   },
   "devDependencies": {
     "autoprefixer": "^10.4.2",
@@ -66,6 +67,7 @@
     "command-exists": "^1.2.9",
     "commander": "^7.2.0",
     "concat-map": "^0.0.1",
+    "concurrently": "^7.0.0",
     "connect": "^3.7.0",
     "console-browserify": "^1.2.0",
     "constants-browserify": "^1.0.0",

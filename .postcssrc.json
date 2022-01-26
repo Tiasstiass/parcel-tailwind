@@ -1,11 +1,7 @@
 {
   "plugins": {
     "postcss-import": {},
-    "postcss-critical-css": {
-      "outputPath": "/assets",
-      "outputDest": "critical-test.css",
-      "preserve": "false"
-    },
+    "postcss-critical-css": {},
     "tailwindcss": {},
     "autoprefixer": {}
   }
