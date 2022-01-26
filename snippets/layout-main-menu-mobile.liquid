@@ -1,0 +1,134 @@
+{%- comment -%}
+  Inputs:
+    menu object (linklists.main-menu)
+{%- endcomment -%}
+
+{% style %}
+  .main-menu__mobile {
+    position: relative;
+  }
+  .main-menu__mobile, .main-menu__mobile .sub-menu > .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-family: var(--font-menu);
+    transition: transform .5s;
+    font-weight: bold;
+    text-transform: none;
+    color: var(--text-color-primary);
+    font-size: 23px;
+    line-height: 39px;
+  }
+  .main-menu__mobile a.hasChild {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    grid-gap: 20px;
+  }
+
+  .main-menu__mobile .sub-menu-navigation {
+    display: flex;
+    grid-gap: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    margin-bottom: 30px;
+  }
+  .main-menu__mobile .sub-menu {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    transform: translateX(calc(100% + 35px));
+  }
+  .main-menu__mobile a.hasChild.navigated > .sub-menu {
+    display: block;
+  }
+  .main-menu__mobile.level2 {
+    transform: translateX(calc(-100% - 35px));
+  }
+  .menu_main-menu__mobile--arrow-container {
+    width: 100%;
+    text-align: right;
+  }
+  .expandable__menu-item {
+    white-space: nowrap;
+  }
+  .sub-menu-navigation .arrow-container {
+    padding: 0px 5px;
+  }
+{% endstyle %}
+
+<div class="menu main-menu__mobile">
+  {% for item in menu.links %}
+    <a
+      href="{{ item.url }}"
+      class="
+        level1 
+        menu-item
+        {% if item.active %}active{% endif %}
+        {% if item.levels > 0 %}hasChild{% endif %}
+      "
+      data-nav-to="level2"
+    >
+      <span class="expandable__menu-item">{{ item.title }}</span>
+
+      {%- if item.levels > 0 -%}
+      <div class="sub-menu">
+        <div class="sub-menu-navigation" data-nav-from="level2" data-nav-to="level1">
+          <div class="arrow-container">
+            <span class="icon arrow left"></span>
+        </div>
+        <span>{{ item.title }}</span></div>
+        {%- assign menu_id = "mobile_submenu__" | append: item.handle | append: forloop.index -%}
+        {%- render 'menu', menu: item, menu_id: menu_id -%}
+      </div>
+      <div class="menu_main-menu__mobile--arrow-container arrow-container">
+        <div class="icon arrow right arrow-container"></div>
+      </div>
+      {%- endif -%}
+    </a>
+  {% endfor %}
+</div>
+
+<script>
+  // Sub menu navigation action
+  document.addEventListener("click", function(e) {
+    let el = e.target;
+    if(el.tagName !== "A") {
+      el = el.closest("a");
+    }
+    if(!el) return;
+    if(!el.classList) return;
+    if(!el.classList.contains("menu-item")) return;
+    if(!el.classList.contains("hasChild")) return;
+
+    e.preventDefault();
+
+    // active only by click on arrow
+    if(!e.target.classList.contains("arrow-container")) return;
+
+    let menu = el.closest(".main-menu__mobile");
+    let nav_to = el.getAttribute("data-nav-to");
+    menu.classList.add(nav_to);
+    el.classList.add("navigated");
+  });
+
+  // Sub menu Back navigation action
+  document.addEventListener("click", function(e) {
+    let el = e.target;
+    if(!el || !el.classList) return;
+    if(!el.classList.contains("sub-menu-navigation")) {
+      el = el.closest(".sub-menu-navigation");
+    }
+    if(!el || !el.classList) return;
+    if(!el.classList.contains("sub-menu-navigation")) return;
+
+    e.preventDefault();
+
+    el.closest(".navigated").classList.remove("navigated");
+    let menu = el.closest(".main-menu__mobile");
+    menu.classList.remove(el.getAttribute("data-nav-from"));
+    menu.classList.add(el.getAttribute("data-nav-to"));
+  });
+</script>

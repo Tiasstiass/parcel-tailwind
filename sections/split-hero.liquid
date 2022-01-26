@@ -1,0 +1,208 @@
+{% stylesheet %}
+  .split-hero {
+    display: flex;
+  }
+  .split-hero .hero-grid__item {
+    width: 50%;
+    height: 650px;
+  }
+  .split-hero .hero-image__wrapper {
+    position: relative;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  .split-hero .hero-text__wrapper {
+    position: absolute;
+    width: 100%;
+    max-width: 715px;
+    min-height: 300px;
+    text-align: center;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0px);
+  }
+  .split-hero .hero-image__wrapper .hero-title {
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 100%;
+  }
+  .split-hero .hero-image__wrapper .hero-subtitle {
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .split-hero .hero-video__wrapper .video-section {
+    max-height: 650px;
+    height: 100%;
+  }
+  .split-hero .hero-video__wrapper .video-section .video-wrapper {
+    height: 100%;
+  }
+  .split-hero .hero-video__wrapper .video-section .video-wrapper .video-holder {
+    height: 100%;
+  }
+  .split-hero .hero-video__wrapper .video-section .video-wrapper .video-holder iframe {
+    min-width: 1155px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media(max-width: 768px) {
+    .split-hero .hero-grid__item {
+      width: 100%;
+      height: 400px;
+    }
+    .split-hero .hero-video__wrapper {
+      display: none;
+    }
+    .split-hero .hero-text__wrapper {
+      min-height: 0;
+      bottom: 50px;
+    }
+  }
+{% endstylesheet %}
+
+{%- render 'split-hero', block: section -%}
+
+{% schema %}
+{
+  "name": "Split Hero",
+  "class": "shopify-section hero-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "select",
+      "id": "hero_image_position",
+      "label": "Hero Image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_mobile",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size Mobile",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content": "SubTitle"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "SubTitle Font Size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size_mobile",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "SubTitle Font Size Mobile",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "SubTitle Color",
+      "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "Video URL",
+      "accept": [
+        "vimeo"
+      ],
+      "default": "https://vimeo.com/347119375"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_thumb",
+      "label": "Video Thumbnail"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_button",
+      "label": "Video Play Button"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Split Hero",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

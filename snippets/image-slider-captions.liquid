@@ -1,0 +1,68 @@
+{%- comment -%}
+  Inputs:
+    section - section section
+{%- endcomment -%}
+
+{%- comment -%} Slider Wrapper {%- endcomment -%}
+<div class="splide__main-wrapper relative p-0"
+  data-position="{{ section.settings.position }}"
+>
+
+  {%- comment -%} Skeleton Structure {%- endcomment -%}
+  <div class="skeleton__main-wrapper">
+    <div class="skelet-item skeleton-wrapper">
+      <div class=""></div>
+    </div>
+  </div>
+
+  <div class="splide splide--{{ section.id }}" style="display: none">
+
+    <!-- BUTTONS -->
+    <div class="splide__arrows page-width" style="display: none;">
+      <button class="splide__arrow splide__arrow--prev">
+        {% render 'icons-factory',
+          icon: 'arrow-pagination',
+          size: '40x40',
+          fill: 'var(--color__light)',
+          type: 'svg'
+        %}
+      </button>
+      <button class="splide__arrow splide__arrow--next">
+        {% render 'icons-factory',
+          icon: 'arrow-pagination',
+          size: '40x40',
+          fill: 'var(--color__light)',
+          type: 'svg'
+        %}
+      </button>
+    </div>
+
+    <div class="splide__track">
+      <ul class="splide__list">
+        {%- for block in section.blocks -%}
+            <li class="splide__slide slide--{{ block.id }} flex page-width mobile-full" {{ block.shopify_attributes }}>
+              <div class="li-container w-full flex">
+                <div class="image__container relative">
+                  {%- render 'image',
+                    image: block.settings.image,
+                    responsive: true
+                  -%}
+                </div>
+                <div class="text__container flex">
+                  <p class="text__index text-medium flex">
+                    <span> {{ forloop.index }} </span>
+                    <span>/</span>
+                    <span> {{ forloop.length }} </span>
+                  </p>
+                  <p class="text__caption">{{ block.settings.caption }}</p>
+                </div>
+              </div>
+            </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+

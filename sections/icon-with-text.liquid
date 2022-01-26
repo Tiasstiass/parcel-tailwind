@@ -1,0 +1,87 @@
+{% stylesheet %} 
+  .section--icon-blocks__container {
+    overflow-x: scroll;
+    margin: 50px auto;
+  }
+  .section--icon-blocks__container .icon-block__container {
+    width: 200px;
+    height: 200px;
+    min-width: 200px;
+    border: 1px solid var(--text-color-primary);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .icon-block__image {
+    height: 135px;
+  }
+{% endstylesheet %}
+
+<div class="section--icon-blocks__container page-width flex items-start">
+  {%- render 'icon-with-text', section: section -%}
+</div>
+
+{% schema %}
+{
+  "name": "Icon with Text",
+  "class": "shopify-section icon-with-text",
+  "settings": [
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Title Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon",
+      "name": "Icon Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color"
+        },
+        {
+          "type": "textarea",
+          "id": "text_title",
+          "label": "Button Text",
+          "default": "Icon Title"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "range",
+          "id": "max_width",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Image Max Width",
+          "default": 100
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon with Text",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

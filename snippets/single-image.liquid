@@ -1,0 +1,20 @@
+{%- comment -%}
+  Inputs:
+    - block - block or section object
+{%- endcomment -%}
+
+{%- style -%}
+  .single-image__section--{{ block.id }} .single-image__section--{{block.id}}__container img {
+    width: {{ block.settings.image_width }}% !important;
+  }
+{%- endstyle -%}
+
+<div class="single-image__section--{{ block.id }}">
+  <div class="single-image__section--{{ block.id }}__container text-center">
+    {%- if block.settings.url != blank -%}<a href="{{ block.settings.url }}">{%- endif -%}
+      {%- if block.settings.image != blank -%}
+        {%- render 'image', image: block.settings.image -%}
+      {%- endif -%}
+    {%- if block.settings.url != blank -%}</a>{%- endif -%}
+  </div>
+</div>

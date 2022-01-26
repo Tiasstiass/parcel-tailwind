@@ -1,0 +1,6 @@
+/* Components that can be overridden inline */
+@layer components {
+  .card {
+    background-color: theme('colors.orange');
+  }
+}

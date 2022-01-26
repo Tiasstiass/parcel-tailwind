@@ -1,0 +1,154 @@
+<script>
+  // Add mega-menu class for selected elements
+  {% liquid
+    assign menu_to_apply = section.blocks | where: "type", "menu_item"
+    assign product_blocks = section.blocks | where: "type", "product"
+  %}
+
+  // Fill menu items
+  let menu_to_apply = [];
+  {% for item in menu_to_apply %}
+  menu_to_apply.push(
+    {{ item.settings | json }}
+  );
+  {% endfor %}
+
+  // Fill product offers
+  let product_offers = [];
+  {% for block in product_blocks %}
+  product_offers.push(
+    {
+      "title": "{{ block.settings.title }}",
+      "isGlobal": {{ block.settings.global | json }},
+      "menu_handle": "{{ block.settings.menu_handle }}",
+      "productLayout": `{% render 'product-block', product: block.settings.product %}`
+    }
+  );
+  {% endfor %}
+
+  let menu_items = document.querySelectorAll(".main-menu__desktop .level1");
+  menu_items.forEach(menu_item => {
+    // Apply mega-menu and styles
+    menu_to_apply.forEach(mega_item => {
+      if(menu_item.getAttribute("data-handle") == mega_item.menu_handle) {
+        // Check if menu already have sub-menu
+        if(!menu_item.querySelector(".sub-menu")) {
+          // add sub-menu block
+          let block = document.createElement("div");
+          block.classList.add("sub-menu");
+          menu_item.append(block);
+        }
+
+        menu_item.classList.add("mega-menu");
+        menu_item.classList.add("hasChild"); // needed for show mega menu if it is not sub-menu existing
+        let extraStyle = '';
+        if(mega_item.highlight) {
+          extraStyle = extraStyle + ` background: ${mega_item.highlight};`;
+        }
+        if(mega_item.color) {
+          extraStyle = extraStyle + ` color: ${mega_item.color};`;
+        }
+        menu_item.setAttribute("style", menu_item.getAttribute("style") + ";" + extraStyle);
+      }
+    });
+
+    // Add product offers
+    product_offers.forEach(product_offer => {
+      if(!menu_item.classList.contains("mega-menu")) {
+        return;
+      }
+
+      if(product_offer.isGlobal == false
+        && menu_item.getAttribute("data-handle") != product_offer.menu_handle
+      ) {
+        return;
+      }
+
+      menu_item.classList.add("hasProductOffers");
+      let container = menu_item.querySelector(".mega-menu__offers-container");
+      if(!container) {
+        container = document.createElement("div");
+        container.classList.add("mega-menu__offers-container");
+        menu_item.querySelector(".sub-menu").append(container);
+      }
+      let product = document.createElement("div");
+      let title = "";
+      if(product_offer.title != "") {
+        title = `
+          <div class="product-block__title text-medium">${product_offer.title}</div>
+        `;
+      }
+      product.classList.add("product-block__wrapper");
+      product.innerHTML = `
+        ${title}
+        ${product_offer.productLayout}
+      `;
+      container.append(product);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Mega menu",
+  "settings": [
+
+  ],
+  "blocks": [
+    {
+      "type": "menu_item",
+      "name": "Item for enable mega-menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_handle",
+          "label": "Menu handle",
+          "info": "Root menu item identifier which mega menu should be enabled"
+        },
+        {
+          "type": "color",
+          "id": "highlight",
+          "label": "Highlight with color"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text color"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Product offer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_handle",
+          "label": "Menu handle",
+          "info": "Root menu item identifier which mega menu should be enabled"
+        },
+        {
+          "type": "checkbox",
+          "id": "global",
+          "label": "Apply globally for all mega-menus?",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "settings": {
+    }
+  }
+}
+{% endschema %}

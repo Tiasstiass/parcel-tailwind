@@ -1,0 +1,58 @@
+{% stylesheet %}
+  .about-us__content {
+    --margin-1: 54px;
+    --padding-top: 108px;
+    --padding-left: 150px;
+    --padding-right: 30px;
+
+    width: 50%;
+    padding: var(--margin-1) 0;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+  }
+
+  .about-us__content * {
+    color: var(--text-color-primary);
+  }
+
+  .about-us__content p {
+    margin: revert;
+  }
+
+  .about-us__content h1, .about-us__content h2, .about-us__content h3,
+  .about-us__content h4, .about-us__content h5, .about-us__content h6 {
+    margin-top: var(--margin-1);
+  }
+
+  .about-us__content .image-caption {
+    font-family: var(--font-text);
+  }
+
+  .about-us__content img {
+    width: 100%;
+    margin-top: var(--margin-1);
+  }
+
+  .about-us__content > p:first-child {
+    font-family: var(--text-family-regular) !important;
+    line-height: 31px;
+  }
+
+  @media (max-width: 1023px) {
+    .about-us__content {
+      width: 100%;
+      padding: var(--padding-top) var(--padding-right);
+    }
+  }
+
+{% endstylesheet %}
+
+<div class="about-us page-width mobile-full">
+  <div class="about-us__content">
+    {{ page.content }}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.about-us__content p').forEach(p => p.classList.add('text-body'));
+</script>

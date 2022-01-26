@@ -1,0 +1,24 @@
+{%- assign product_results = search.results | where: 'object_type', 'product' -%}
+{%- style -%}
+  .vw-90 {
+    width: 90vw;
+  }
+{%- endstyle -%}
+<div class="p-4 px-3">
+  <div class="flex items-center justify-between w-100{% if template contains 'search' %} flex-col{% endif %}">
+    <form action="/search" method="get" role="search" class="flex items-center justify-around w-100">
+      <input type="search" name="q" value="{{ search.terms | escape }}" data-template-name="{{ template.name }}" placeholder="{{ 'search.placeholder' | t }}" class="search-input w-100 form-input p-3 {% if template contains 'search' %} vw-90{% endif %}" aria-label="{{ 'search.placeholder' | t }}">
+    </form>
+  </div>
+  {%- if product_results.size > 0 -%}
+  <div class="mt-5">
+    {% for item in product_results %}
+      <a class="mb-2 block" href="{{ item.url }}">{{ item.title }}</a>
+    {% endfor %}
+  </div>
+  {%- else -%}
+  <div class="search_empty_results text-center p-3">
+    {{ 'search.no_results' | t }}
+  </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,77 @@
+{%- comment -%}
+  Inputs:
+    section - section with settings
+{%- endcomment -%}  
+
+{% if section.settings.visible %}
+  {% if section.settings.home_page_only == false or template.name == 'index' %}
+  {% style %}
+    #announcement-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: {{ section.settings.text_color }};
+      background: {{ section.settings.background }};
+      padding: 0px 10px;
+      line-height: 18px;
+      height: 40px;
+      font-size: 10px;
+      line-height: 12px;
+    }
+    .fixed-header #shopify-section-layout-announcement-bar {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      z-index: 10;
+    }
+    .fixed-header #shopify-section-layout-header {
+      margin-top: 40px;
+    }
+
+    .fixed-header #site-header + div {
+      margin-top: calc({{ settings.header_height }}px + 40px) !important;
+    }
+    
+    #announcement-bar:not(.is-active) .splide__list {
+      width: auto !important;
+    }
+    @media (max-width: 768px) {
+      #announcement-bar {
+        height: 30px;
+        font-size: 8px;
+      }
+      .fixed-header #shopify-section-layout-header {
+        margin-top: 30px;
+      }
+      #announcement-bar:not(.is-active) .splide__list {
+        justify-content: start;
+      }
+      #announcement-bar:not(.is-active) .splide__slide { 
+        flex: 0 0 100%;
+      }
+      .fixed-header #site-header + div {
+        margin-top: calc({{ settings.header_height }}px + 30px) !important;
+      }
+    }
+  {% endstyle %}
+  <div id="announcement-bar" class="carousel-slider-mobile" data-splide='{"autoplay": true}'>
+    <div class="announcement-bar__inner splide__track">
+      <div class="splide__list flex md:flex-wrap items-center justify-center gap-10">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+        <div class="announcement__block splide__slide">
+          {{ block.settings.text }}
+        </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="announcement__block splide__slide">
+          Please, add new announcement block
+        </div>
+      {%- endif -%}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endif %}

@@ -1,0 +1,40 @@
+{% comment %}
+  shoplab
+  Include assets based on page_type
+{% endcomment %}
+
+<link rel="preload" as="style" href="{{ 'lab.main.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+{%- case request.page_type -%}
+
+  {%- when "index" -%}
+    <link rel="preload" as="style" href="{{ 'lab.index.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+  {%- when "collection" -%}
+    <link rel="preload" as="style" href="{{ 'lab.collection.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+  {%- when "product" -%}
+    <link rel="preload" as="style" href="{{ 'lab.product.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+  {%- when "page" -%}
+    <link rel="preload" as="style" href="{{ 'lab.page.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+  {%- when "cart" -%}
+    <link rel="preload" as="style" href="{{ 'lab.cart.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+  {%- when "article" -%}
+    <link rel="preload" as="style" href="{{ 'lab.article.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+  {%- when "blog" -%}
+    <link rel="preload" as="style" href="{{ 'lab.blog.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+  {%- when "gift_card" -%}
+    <link rel="preload" as="style" href="{{ 'lab.gift_card.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+  {%- when "password" -%}
+    <link rel="preload" as="style" href="{{ 'lab.password.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+  {%- when "search" -%}
+    <link rel="preload" as="style" href="{{ 'lab.search.min.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+
+{%- endcase -%} 

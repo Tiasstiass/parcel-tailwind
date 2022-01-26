@@ -1,0 +1,13 @@
+{%- comment -%}
+  Inputs:
+    menu - menu title
+{%- endcomment -%}
+
+{%- assign menu = linklists[menu] -%}
+<ul class="menu">
+  {%- for link in menu.links -%}
+  <li class="menu-item level1" data-handle="{{ link.handle }}">
+    <a class="menu-link" href="{{ link.url }}">{{ link.title }}</a>
+  </li>
+  {%- endfor -%}
+</ul>

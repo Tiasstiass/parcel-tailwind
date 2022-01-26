@@ -1,0 +1,60 @@
+{%- style -%}
+.custom-html--{{ section.id }} {
+  width: {{ section.settings.width }}%;
+  margin: 40px auto;
+  padding-top: 40px;
+  border-top: 1px solid var(--color__general-border);
+}
+.custom-html--{{ section.id }} .small-text {
+  color: {{ section.settings.color }};
+  font-family: var(--font-text);
+  font-size: 13px;
+  line-height: 22px;
+}
+{%- endstyle -%}
+
+<div class="custom-html--{{ section.id }}">
+  <div class="page-width-half">
+    <p class="small-text">{{ section.settings.custom_html }}</p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom HTML",
+  "class": "custom_html-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Text color",
+      "default": "#003A2B"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_html",
+      "label": "HTML"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "Section width",
+      "unit": "%",
+      "min": 5,
+      "max": 100,
+      "step": 5,
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom HTML",
+      "category": "HTML",
+      "settings": {
+      }
+    }
+  ]
+}
+{% endschema %}
+
+

@@ -1,0 +1,52 @@
+{%- comment -%}
+  Inputs:
+    fill - fill color
+{%- endcomment -%} 
+
+{%- liquid 
+  if fill == blank 
+    assign fill = '#000'
+  endif
+  assign size = "20x20"
+-%}
+
+<ul class="social-icons flex items-center">
+  {%- if settings.social_facebook_link != blank -%}
+    <li>
+      <a target="_blank" rel="noopener" href="{{ settings.social_facebook_link }}" title="Facebook">
+        {% render 'icons-factory',
+          icon: 'facebook',
+          size: size,
+          fill: fill,
+          type: 'svg'
+        %}
+      </a>
+    </li>
+  {%- endif -%}
+
+  {%- if settings.social_instagram_link != blank -%}
+    <li>
+      <a target="_blank" rel="noopener" href="{{ settings.social_instagram_link }}" title="Instagram">
+        {% render 'icons-factory',
+          icon: 'twitter',
+          size: size,
+          fill: fill,
+          type: 'svg'
+        %}
+      </a>
+    </li>
+  {%- endif -%}
+
+  {%- if settings.social_twitter_link != blank -%}
+    <li>
+      <a target="_blank" rel="noopener" href="{{ settings.social_twitter_link }}" title="Twitter">
+        {% render 'icons-factory',
+          icon: 'instagram',
+          size: size,
+          fill: fill,
+          type: 'svg'
+        %}
+      </a>
+    </li>
+  {%- endif -%}
+</ul>

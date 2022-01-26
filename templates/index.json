@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "example-section": {
+      "type": "example-section",
+      "settings": {
+        "title": "Default Title",
+        "background_color": "rgba(0,0,0,0)"
+      }
+    }
+  },
+  "order": [
+    "example-section"
+  ]
+}

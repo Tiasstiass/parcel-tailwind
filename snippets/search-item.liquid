@@ -1,0 +1,22 @@
+{%- comment -%}
+  Inputs:
+    none
+{%- endcomment -%}
+<div class="search__item grid grid-flow-col gap-2 items-center mb-1 skeleton-loading" style="min-height: 50px; grid-template-columns: 50px auto;"> 
+  <div class="search__item-image">
+    <a 
+      :href="item.url"
+    >
+      <img 
+        loading="lazy"
+        :src="item.image ? item.image.replace('.jpg', '_50x.jpg') : ''" 
+      />
+    </a>
+  </div>
+  <div class="search__item-title text-left">
+    <a 
+      :href="item.url"
+      v-html="item.title ? item.title : ''"
+    ></a>
+  </div>
+</div>

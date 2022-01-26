@@ -1,0 +1,60 @@
+{%- comment -%}
+  Product separate page
+  Inputs:
+    - product - product object
+    - section - section object
+{%- endcomment -%}
+
+<div class="product-details" id="product-section-{{ section.id }}">
+  <div class="page-width">
+    <div class="product-details__grid">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'gallery' -%}
+            {%- liquid 
+              render 'product-gallery', product: product
+            -%}
+        {%- endcase -%}
+      {%- endfor -%}
+      
+      <div id="product-main-data" class="product-details__blocks">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              {% render block %}
+
+            {%- when 'title' -%}
+              <h2 class="product-details__title">
+                {{ product.title }}
+              </h2>
+
+            {%- when 'price' -%}
+              {%- render 'product-price', product: product -%}
+
+            {%- when 'review-badge' -%}
+              {%- render 'product-review-badge', product: product -%}
+
+            {%- when 'meta-text' -%}
+              {%- render 'product-meta-text', product: product -%}
+
+            {%- when 'description' -%}
+              <div class="product-details__description">
+                {{ product.description }}
+              </div>
+
+            {%- when 'form' -%}
+              {%- render 'product-form', product: product -%}
+
+            {%- when 'collection_name' -%}
+              <div class="product-details__collection-name title-tag">
+                {{ product.collections | map: 'title' | join: " / " }}
+              </div>
+
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- render 'product-json', product: product -%}

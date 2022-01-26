@@ -1,0 +1,246 @@
+{%- capture geoip_modal_content -%}
+  <div id="geoip-modal" class="geoip-modal__content">
+      <div class="geoip-modal text-center">
+        <div class="geoip-modal__top">
+          <div class="geoip-modal__heading section-heading">{{ "geoip_modal.general.title" | t }}</div>
+          <div class="geoip-modal__subheading">{{ "geoip_modal.general.subtitle" | t }}</div>
+          <div class="geoip-modal__description">
+            {{ "geoip_modal.general.description_html" | t }}
+          </div>
+          <div class="geoip-modal__cta">
+            <a href="#" class="button cta">{{ 'geoip_modal.general.cta_html' | t }}</a>
+          </div>
+        </div>
+
+        <div class="geoip-modal__cta-dismiss">
+          <a 
+            id="geoip__cta-forcestay" 
+            href="?forcestay=true" 
+            class="geoip-modal__cta-dismiss"
+            onClick="window.Modals['geoipModal'].close()"
+          >
+            {{ 'geoip_modal.general.cta_dismiss_html' | t }}
+          </a>
+        </div>
+        <div class="geoip-modal__dropdown">
+          <div class="geoip-modal__dropdown-heading">{{ 'geoip_modal.general.select_region_label' | t }}</div>
+          <div class="geoip-modal__dropdown-box region-picker">
+            <div class="region-picker__toggle">
+              <img loading="lazy" class="lozad" src="{{ 'flag_eu.png' | asset_img_url: 'x23' }}" width="auto" height="auto"/>
+              <span class="store_name">LocalHost</span>
+              <span class="arrow down"></span>
+            </div>
+            <div class="region-picker__list hidden">
+              {%- if section.settings.DE -%}
+                <a href="https://naturkosmetik-de.myshopify.de?forcestay=true" id="switch-de" class="switch-de region-picker__list-option flag-de" >
+                  <img loading="lazy" class="lozad" src="{{ 'flag_de.png' | asset_img_url: 'x23' }}" width="auto" height="auto"/>
+                  <span class="store_name">{{ 'geoip_modal.countries.de' | t }}</span>
+                </a>
+              {%- endif -%}
+              {%- if section.settings.EN -%}
+                <a href="https://naturkosmetik-de.myshopify.com?forcestay=true" id="switch-com" class="region-picker__list-option flag-com" >
+                  <img loading="lazy" class="lozad" src="{{ 'flag_usa.png' | asset_img_url: 'x23' }}" width="auto" height="auto"/>
+                  <span class="store_name">{{ 'geoip_modal.countries.usa' | t }}</span>
+                </a>
+              {%- endif -%}
+              {%- if section.settings.UK -%}
+                <a href="https://uk.naturkosmetik-de.myshopify.comforcestay=true" id="switch-uk" class="region-picker__list-option flag-uk" >
+                  <img loading="lazy" class="lozad" src="{{ 'flag_uk.png' | asset_img_url: 'x23' }}" width="auto" height="auto"/>
+                  <span class="store_name">{{ 'geoip_modal.countries.uk' | t }}</span>
+                </a>
+              {%- endif -%}
+              {%- if section.settings.EU -%}
+                <a href="https://eu.naturkosmetik-de.myshopify.com?forcestay=true" id="switch-eu" class="region-picker__list-option flag-eu" >
+                  <img loading="lazy" class="lozad" src="{{ 'flag_eu.png' | asset_img_url: 'x23' }}" width="auto" height="auto"/>
+                  <span class="store_name">{{ 'geoip_modal.countries.eu' | t }}</span>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{%- endcapture -%}
+
+{%- render 'modal-popup', id: "geoipModal", content: geoip_modal_content, extraAttributes: "id='geoipModalContent'" -%}
+
+<script>
+(() => { // wrapper for allow return from this
+  let geoip_modal = document.querySelector('.geoip-modal__content');
+  if (!geoip_modal) return;
+  let geoip_region_picker_select = geoip_modal.querySelector('.region-picker__toggle');
+  let geoip_region_picker_list = geoip_modal.querySelector('.region-picker__list');
+  let geoip_country = geoip_modal.querySelectorAll('.geoip-country');
+  let geoip_shop_links = geoip_modal.querySelectorAll('.geoip-shop-link');
+  let geoip_host = geoip_modal.querySelector('.geoip-host');
+  let geoip_cta = geoip_modal.querySelector('.geoip-modal__cta');
+  let geoip_cta_dismiss = geoip_modal.querySelector('a.geoip-modal__cta-dismiss');
+
+  const SHIP_FROM_UK = ["IE", "RU", "AL", "AD", "BY", "BA", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "GE", "GI", "GR", "HU", "IS", "IT", "XK", "LV", "LI", "LT", "LU", "MT", "MD", "MC", "ME", "NL", "MK", "NO", "PL", "PT", "RO", "RU", "SM", "RS", "SK", "SI", "ES", "SJ", "SE", "TR", "UA", "VA"]
+  const SHIP_FROM_DE = ["DE", "AT", "CH"];
+  const SHIP_FROM_US = ["US", "CA", "MX"];
+
+  const shops = {
+    com: { name: "COM", host: "naturkosmetik.com", country: "USA" },
+    de: { name: "DE", host: "naturkosmetik.de", country: "DE / CH / AT" },
+    uk: { name: "UK", host: "uk.naturkosmetik.com", country: "United Kingdom" },
+    dev: {name: 'DEV', host:"naturkosmetik-de.myshopify.com", country: "DEV" }
+  }
+
+  const isDEShippingCountry = (country_code) => {
+    return SHIP_FROM_DE.includes(country_code)
+  }
+
+  const isUKShippingCountry = (country_code) => {
+    return SHIP_FROM_UK.includes(country_code)
+  }
+
+  const isUSShippingCountry = (country_code) => {
+    return SHIP_FROM_US.includes(country_code)
+  }
+
+  const deactivateGeoRedirect = () => {
+    localStorage.setItem("deactivateGeoRedirect", String(true))
+  }
+
+  const determineProposedShop = (country_code) => {
+    console.log("GeoIP - detected country: ", country_code)
+    if (document.querySelector('#switch-de') && isDEShippingCountry(country_code)) return shops.de
+    if (document.querySelector('#switch-uk') && isUKShippingCountry(country_code)) return shops.uk
+    if (document.querySelector('#switch-com') && isUSShippingCountry(country_code)) return shops.com
+    return shops.uk
+  }
+  document.addEventListener("user:located", function () {
+    const { country_code, country_name } = theme.userLocation;
+    const proposedShop = determineProposedShop(country_code);
+
+    var current_host = window.location.hostname.replace("www.", "");
+    var current_store_key = Object.keys(shops).find(key => shops[key]['host'] === current_host);
+
+    var current_store = shops[current_store_key];
+    if (!current_store) {
+      // dummy for localhost
+      current_store = {
+        name: "localhost"
+      };
+    }
+
+    geoip_country.forEach(c => {
+      if(country_name == "Deutschland") {
+        country_name = "Germany";
+      }
+      c.innerHTML = country_name;
+    })
+
+    geoip_shop_links.forEach(link => {
+      link.innerHTML = proposedShop.host.replace("www.", "");
+    });
+
+    if (current_store === undefined || current_store === 'undefined') return;
+
+    if (current_store.host) {
+      geoip_host.innerHTML = current_store.host;
+    }
+    else {
+      geoip_host.innerHTML = "naturkosmetik-de.myshopify.com";
+    }
+
+    // update link and append forcestay=true param 
+    // This should be used "later" also for "store switcher dropdown", and always save the state in localStorage, otherwise prompt 
+    // always appears again
+
+    // ToDo: write general function to read param forcestay=true and save this to localStorage, 
+    // if this is true then also hide the GEO Popup by default
+    // below is just example...
+
+    geoip_cta.addEventListener('click', function (event) {
+      event.preventDefault()
+      window.location.href = `https://${proposedShop?.host}?forcestay=true`
+    })
+
+    geoip_cta_dismiss.addEventListener('click', function (event) {
+      event.preventDefault();
+      deactivateGeoRedirect();
+      window.Modals['geoipModal'].close();
+    })
+
+    var selected_option = geoip_region_picker_list.querySelector(".flag-" + current_store.name.toLowerCase());
+    if (selected_option) {
+      selected_option.classList.add('hidden');
+      geoip_region_picker_select.querySelector('img').src = selected_option.querySelector('img').src;
+      geoip_region_picker_select.querySelector('.store_name').innerHTML = selected_option.querySelector('.store_name').innerHTML;
+    }
+    if (current_store != proposedShop && window.localStorage.deactivateGeoRedirect != "true") {
+      window.Modals['geoipModal'].open();
+    } else {
+      deactivateGeoRedirect();
+    }
+  })
+
+  geoip_region_picker_select.addEventListener('click', function (e) {
+    if (geoip_region_picker_list.classList.contains('hidden')) {
+      geoip_region_picker_list.classList.remove('hidden');
+    } else {
+      geoip_region_picker_list.classList.add('hidden');
+    }
+  })
+
+  geoip_region_picker_list.querySelectorAll('.region-picker__list-option').forEach(option => {
+    option.addEventListener('click', function (e) {
+      deactivateGeoRedirect();
+    })
+  });
+
+  /**
+   * Trigger popup on menu item click
+   */
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      document.querySelectorAll(".menu a:not(.hasChild)").forEach((el) => {
+        if(el.innerText.includes(" >")) {
+          el.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.Modals['geoipModal'].open();
+          })
+        }
+      });
+    }, 1500);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Geoip Modal",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Store List"
+    },
+    {
+      "type": "checkbox",
+      "id": "DE",
+      "label": "naturkosmetik.de",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "EN",
+      "label": "naturkosmetik.com",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "UK",
+      "label": "uk.naturkosmetik.com",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "EU",
+      "label": "eu.naturkosmetik.com",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
